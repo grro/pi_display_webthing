@@ -22,3 +22,5 @@ command. This returns the address of
 the I2C connected devices such as shown below
 
 ![Detect I2C LCD](detect.png)
+
+Here, the address of the LCD module is *0x27*
