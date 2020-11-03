@@ -14,20 +14,7 @@ Then highlight the *I2C* option and activate *<Select>*
 
 After rebooting the interface will be enabled.
 
-To detect the address of your LCD module you may perform the i2cdetect command. This returns the address of the I2C connected devices such as shoen below
+To detect the address of your LCD module you may perform the i2cdetect command. This returns the address of 
+the I2C connected devices such as shown below
 
-<pre>
-sudo i2cdetect -y 1 
-
-     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
-00:          -- -- -- -- -- -- -- -- -- -- -- -- --
-10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-20: -- -- -- -- -- -- -- 27 -- -- -- -- -- -- -- --
-30: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-40: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-50: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-70: -- -- -- -- -- -- -- --
-</pre>
-
-In the example above the address of the LCD Module is 27.
+![Detect I2C LCD](detect.png)
