@@ -36,7 +36,7 @@ setup(
     ],
     install_requires=[
         'webthing',
-        'python-smbus',
+        'smbus2',
         'RPLCD'
     ],
     classifiers=[

@@ -13,7 +13,7 @@ class DisplayWebThing(Thing):
         Thing.__init__(
             self,
             'urn:dev:ops:display-1',
-            (name + ' Display').strip(),
+            (name + ' Display Controller').strip(),
             ['Display'],
             description
         )
