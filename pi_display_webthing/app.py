@@ -80,7 +80,7 @@ class App(ABC):
             elif args.port is None:
                 self.print_usage_info(args.hostname, str(args.port), "--port is mandatory for log command")
             else:
-                self.unit.printlog(int(args.port))
+                self.unit.printlog(args.hostname, int(args.port))
         else:
             if args.hostname is not None and args.port is not None:
                 if self.do_process_command(args.command, args.hostname, args.port, args.verbose, args):
@@ -115,7 +115,7 @@ class Unit:
         except Exception as e:
             pass
 
-    def printlog(self,  hostname: str, port:int):
+    def printlog(self, hostname: str, port:int):
         system("sudo journalctl -f -u " + self.servicename(hostname, port))
 
     def servicename(self, hostname: str, port: int):
