@@ -9,7 +9,6 @@ ENTRY_POINT = "display"
 DESCRIPTION = "A web connected LCD display module"
 
 
-
 UNIT_TEMPLATE = Template('''
 [Unit]
 Description=$packagename
