@@ -16,7 +16,7 @@ After rebooting the interface will be enabled.
 
 To detect the address of your LCD module you may perform the 
 ```
-i2cdetect
+sudo i2cdetect -y 1
 ```
 command. This returns the address of 
 the I2C connected devices such as shown below
