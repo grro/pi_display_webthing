@@ -57,7 +57,7 @@ class DhtApp(App):
         else:
             return False
 
-    def to_hex(hexString: str) -> int:
+    def to_hex(self, hexString: str) -> int:
         if hexString.startswith("0x"):
             return int(hexString, 16)
         else:
