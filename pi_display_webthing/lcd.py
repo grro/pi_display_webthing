@@ -5,7 +5,7 @@ import logging
 class Lcd:
 
     def __init__(self, port_expander_name: str, address: int, num_lines: int, num_chars_per_line: int):
-        logging.info("bind driver to address " + address + " using port expander " + port_expander_name)
+        logging.info("bind driver to address " + hex(address) + " using port expander " + port_expander_name)
         self.char_lcd = CharLCD(port_expander_name, address)
         self.num_lines = num_lines
         self.num_chars_per_line = num_chars_per_line
