@@ -8,7 +8,7 @@ sudo raspi-config
 This launches the raspi-config utility. Here you should select *Interfacing Options*
 ![Activate I2C](i2c_activate_1.png)
 
-Then highlight the *I2C* option and activate *<Select>*
+Then highlight the *I2C* option and activate *Select*
 
 ![Activate I2C](i2c_activate_2.png)
 
