@@ -47,7 +47,7 @@ class DhtApp(App):
     def do_process_command(self, command:str, hostname: str, port: int, verbose: bool, args) -> bool:
         if command == 'listen' and (args.expander is not None) and (args.address is not None):
             print("running " + self.packagename + " on " + hostname + ":" + str(port) + " (LCD " + str(args.num_lines)  + "/" + str(args.num_chars) + ")")
-            run_server(hostname, port, args.name, args.expander, args.address, int(args.num_lines), int(args.num_chars), self.description)
+            run_server(hostname, port, args.name, args.expander, self.to_hex(args.address), int(args.num_lines), int(args.num_chars), self.description)
             return True
         elif args.command == 'register' and (args.expander is not None) and (args.address is not None):
             print("register " + self.packagename  + " on " + hostname + ":" + str(port) + " (LCD " + str(args.num_lines)  + "/" + str(args.num_chars) + ") and starting it")
@@ -56,6 +56,12 @@ class DhtApp(App):
             return True
         else:
             return False
+
+    def to_hex(hexString: str) -> int:
+        if hexString.startswith("0x"):
+            return int(hexString, 16)
+        else:
+            return int(hexString)
 
 
 def main():
