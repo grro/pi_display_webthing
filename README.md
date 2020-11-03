@@ -20,9 +20,12 @@ curl http://192.168.0.23:8070/properties
     "lower_layer_text_ttl": -1
 }
 ```
+Here, the text *NAS error!* will be displayed. The text of the middle layer *uploaded: 41* will be covered by the upper layer. 
+If the text of the upper layer will be cleaned, the displayed text is *uploaded: 41*. 
+By setting the ttl of the layer, the text of the layer will be disappear after expiration of the ttl. Value -1 means that ttl is deactivated. 
 
 A RaspberryPi/LCD hardware setup and wiring may look like [HD44780 1602 LCD module](docs/layout.png). By default, 
-Raspberry Pi OS disables I2C. Please refer [Configure I2C](docs/configure_i2c.md) to activate I2C as and to 
+Raspberry Pi OS disables I2C. Please refer [Configure I2C](docs/configure_i2c.md) to activate I2C and to 
 detect the address of the LCD module.
 
 To install pi_display_webthing you may use [PIP](https://realpython.com/what-is-pip/) package manager such as shown below
@@ -35,7 +38,7 @@ After this installation you may start the webthing http endpoint inside your pyt
 sudo display --command listen --hostname 192.168.0.23 --port 8070 --expander PCF8574 --address 0x27 --num_lines 2 --num_chars 16
 ```
 Here, the webthing API will be bind to hostname 192.168.0.23 on the local port 8070 using a 2/16 display layout on address 0x27. 
-Further more the port I²C port expander name has to be set. The expander name should be written on the microchip. 
+Further more the port I2C port expander name has to be set. The expander name should be written on the microchip. 
 Supported port expanders are *PCF8574*, *MCP23008* and *MCP23017*
 
 Alternatively to the *listen* command, you can use the *register* command to register and start the webthing service as systemd unit. 
