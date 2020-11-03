@@ -122,7 +122,7 @@ class DisplayWebThing(Thing):
 
 def run_server(hostname: str, port: int, name:str, port_expander_name: str, address: str, num_lines: int, num_chars_per_line: int, description: str):
     logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
-    display_webthing = DisplayWebThing(name, num_lines, port_expander_name, address, num_chars_per_line, description)
+    display_webthing = DisplayWebThing(name,port_expander_name, address,  num_lines, num_chars_per_line, description)
     server = WebThingServer(SingleThing(display_webthing), hostname=hostname, port=port)
     try:
         logging.info('starting the server')
