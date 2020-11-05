@@ -12,7 +12,7 @@ class DisplayWebThing(Thing):
     def __init__(self, name: str, description: str, lcd: Lcd):
         Thing.__init__(
             self,
-            'urn:dev:ops:display-1',
+            'urn:dev:ops:lcddisplay-1',
             (name + ' Display Controller').strip(),
             ['Display'],
             description
@@ -20,15 +20,15 @@ class DisplayWebThing(Thing):
 
         self.display = Display(lcd, self.__update_text)
 
-        self.text = Value("")
+        self.display_text = Value("")
         self.add_property(
             Property(self,
-                     'text',
-                     self.text,
+                     'display text',
+                     self.display_text,
                      metadata={
-                         'title': 'text',
+                         'title': 'Displayed text',
                          'type': 'string',
-                         'description': 'The displayed text',
+                         'description': 'Displayed text',
                          'readOnly': True,
                      }))
 
@@ -111,12 +111,12 @@ class DisplayWebThing(Thing):
         self.ioloop.add_callback(self.__update_text_props)
 
     def __update_text_props(self):
-        self.text.notify_of_external_update(self.display.text)
-        self.upper_layer_text.notify_of_external_update(self.display.panel(Display.LAYER_UPPER).text)
+        self.display_text.notify_of_external_update(self.display.text)
+        self.upper_layer_text.notify_of_external_update(self.display.panel(Display.LAYER_UPPER).display_text)
         self.upper_layer_text_ttl.notify_of_external_update(self.display.panel(Display.LAYER_UPPER).ttl)
-        self.middle_layer_text.notify_of_external_update(self.display.panel(Display.LAYER_MIDDLE).text)
+        self.middle_layer_text.notify_of_external_update(self.display.panel(Display.LAYER_MIDDLE).display_text)
         self.middle_layer_text_ttl.notify_of_external_update(self.display.panel(Display.LAYER_MIDDLE).ttl)
-        self.lower_layer_text.notify_of_external_update(self.display.panel(Display.LAYER_LOWER).text)
+        self.lower_layer_text.notify_of_external_update(self.display.panel(Display.LAYER_LOWER).display_text)
         self.lower_layer_text_ttl.notify_of_external_update(self.display.panel(Display.LAYER_LOWER).ttl)
 
 
