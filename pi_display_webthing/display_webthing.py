@@ -33,30 +33,6 @@ class DisplayWebThing(Thing):
                          'readOnly': True,
                      }))
 
-        self.num_rows = Value(lcd.num_lines)
-        self.add_property(
-            Property(self,
-                     'num_rows',
-                     self.num_rows,
-                     metadata={
-                         'title': 'Number of rows',
-                         'type': 'Integer',
-                         'description': 'Number of rows',
-                         'readOnly': True,
-                     }))
-
-        self.num_chars = Value(lcd.num_chars_per_line)
-        self.add_property(
-            Property(self,
-                     'num_chars',
-                     self.num_chars,
-                     metadata={
-                         'title': 'Number characters per row',
-                         'type': 'Integer',
-                         'description': 'Number characters per row',
-                         'readOnly': True,
-                     }))
-
         self.upper_layer_text = Value("", self.display.panel(Display.LAYER_UPPER).update_text)
         self.add_property(
             Property(self,
