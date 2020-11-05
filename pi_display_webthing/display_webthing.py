@@ -1,7 +1,6 @@
 from webthing import (SingleThing, Property, Thing, Value, WebThingServer)
 from RPLCD.i2c import CharLCD, BaseCharLCD
 from pi_display_webthing.display import Display
-from pi_display_webthing.lcd import Lcd
 import tornado.ioloop
 import logging
 
