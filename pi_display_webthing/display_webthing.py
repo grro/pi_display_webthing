@@ -23,7 +23,7 @@ class DisplayWebThing(Thing):
         self.display_text = Value("")
         self.add_property(
             Property(self,
-                     'display text',
+                     'displayed text',
                      self.display_text,
                      metadata={
                          'title': 'Displayed text',
