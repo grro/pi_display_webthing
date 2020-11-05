@@ -1,4 +1,4 @@
-from pi_display_webthing.lcd import Lcd
+from RPLCD.i2c import BaseCharLCD
 import threading
 import time
 import uuid
@@ -60,7 +60,7 @@ class Display:
     LAYER_MIDDLE = 1
     LAYER_LOWER = 2
 
-    def __init__(self, lcd: Lcd, changed_listener):
+    def __init__(self, lcd: BaseCharLCD, changed_listener):
         self.__lcd = lcd
         self.__text = ""
         self.changed_listener = changed_listener
@@ -75,7 +75,8 @@ class Display:
 
     def __update_text(self, text: str):
         self.__text = text
-        self.__lcd.write(self.__text)
+        self.__lcd.clear()
+        self.__lcd.write_string(self.__text)
         self.changed_listener()
 
     def on_panel_updated(self):

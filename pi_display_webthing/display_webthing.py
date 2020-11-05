@@ -1,4 +1,5 @@
 from webthing import (SingleThing, Property, Thing, Value, WebThingServer)
+from RPLCD.i2c import CharLCD, BaseCharLCD
 from pi_display_webthing.display import Display
 from pi_display_webthing.lcd import Lcd
 import tornado.ioloop
@@ -144,9 +145,14 @@ class DisplayWebThing(Thing):
         self.lower_layer_text_ttl.notify_of_external_update(self.display.panel(Display.LAYER_LOWER).ttl)
 
 
-def run_server(hostname: str, port: int, name:str, i2c_expander: str, i2c_address: int, num_lines: int, num_chars_per_line: int, description: str):
+def createI2C(i2c_expander: str, i2c_address: int) -> BaseCharLCD:
+    logging.info("bind driver to address " + hex(i2c_address) + " using port expander " + i2c_expander)
+    return CharLCD(i2c_expander, i2c_address)
+
+
+def run_server(hostname: str, port: int, name:str, i2c_expander: str, i2c_address: int, description: str):
     logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
-    lcd = Lcd.createI2C(i2c_expander, i2c_address)
+    lcd = createI2C(i2c_expander, i2c_address)
     display_webthing = DisplayWebThing(name, description, lcd)
     server = WebThingServer(SingleThing(display_webthing), hostname=hostname, port=port)
     try:
