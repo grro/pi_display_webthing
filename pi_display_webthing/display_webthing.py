@@ -9,7 +9,7 @@ class DisplayWebThing(Thing):
     # regarding capabilities refer https://iot.mozilla.org/schemas
     # there is also another schema registry http://iotschema.org/docs/full.html not used by webthing
 
-    def __init__(self, name: str, description: str, lcd: Lcd):
+    def __init__(self, name: str, description: str, lcd: BaseCharLCD):
         Thing.__init__(
             self,
             'urn:dev:ops:lcddisplay-1',
