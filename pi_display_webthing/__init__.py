@@ -16,7 +16,7 @@ After=syslog.target network.target
 
 [Service]
 Type=simple
-ExecStart=$entrypoint --command listen --hostname $hostname --verbose $verbose --port $port --name $name --i2c_address $i2c_address --i2c_expander $i2c_expander --num_lines $num_lines --num_chars $num_chars
+ExecStart=$entrypoint --command listen --hostname $hostname --verbose $verbose --port $port --name $name --i2c_address $i2c_address --i2c_expander $i2c_expander
 SyslogIdentifier=$packagename
 StandardOutput=syslog
 StandardError=syslog
@@ -36,21 +36,18 @@ class DhtApp(App):
         parser.add_argument('--i2c_expander', metavar='i2c_expander', required=False, type=str, help='the name of the port I²C port expander. Supported: PCF8574, MCP23008, MCP23017')
         parser.add_argument('--i2c_address', metavar='i2c_address', required=False, type=str, help='the I²C address of the LCD Module as hex string')
         parser.add_argument('--name', metavar='name', required=False, type=str, default="", help='the name of the display')
-        parser.add_argument('--num_lines', metavar='num_lines', required=False, type=int, default=2, help='the number of lines')
-        parser.add_argument('--num_chars', metavar='num_chars', required=False, type=int, default=16, help='the numberof chars per line')
-
 
     def do_additional_listen_example_params(self):
-        return "--name NAS --i2c_expander PCF8574 --i2c_address 0x27 --num_lines 2 --num_chars 16"
+        return "--name nas --i2c_expander PCF8574 --i2c_address 0x27"
 
     def do_process_command(self, command:str, hostname: str, port: int, verbose: bool, args) -> bool:
         if command == 'listen' and (args.i2c_expander is not None) and (args.i2c_address is not None):
-            print("running " + self.packagename + " on " + hostname + ":" + str(port) + " (LCD " + str(args.num_lines)  + "/" + str(args.num_chars) + ")")
-            run_server(hostname, port, args.name, args.i2c_expander, self.to_hex(args.i2c_address), int(args.num_lines), int(args.num_chars), self.description)
+            print("running " + self.packagename + " on " + hostname + ":" + str(port))
+            run_server(hostname, port, args.name, args.i2c_expander, self.to_hex(args.i2c_address), self.description)
             return True
         elif args.command == 'register' and (args.i2c_expander is not None) and (args.i2c_address is not None):
-            print("register " + self.packagename  + " on " + hostname + ":" + str(port) + " (LCD " + str(args.num_lines)  + "/" + str(args.num_chars) + ") and starting it")
-            unit = UNIT_TEMPLATE.substitute(packagename=self.packagename, entrypoint=self.entrypoint, hostname=hostname, port=port, verbose=verbose, name=args.name, i2c_expander=args.i2c_expander, i2c_address=args.i2c_address, num_lines=args.num_lines, num_chars=args.num_chars)
+            print("register " + self.packagename  + " on " + hostname + ":" + str(port) + " and starting it")
+            unit = UNIT_TEMPLATE.substitute(packagename=self.packagename, entrypoint=self.entrypoint, hostname=hostname, port=port, verbose=verbose, name=args.name, i2c_expander=args.i2c_expander, i2c_address=args.i2c_address)
             self.unit.register(hostname, port, unit)
             return True
         else:
