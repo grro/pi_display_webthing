@@ -9,7 +9,7 @@ class DisplayWebThing(Thing):
     # regarding capabilities refer https://iot.mozilla.org/schemas
     # there is also another schema registry http://iotschema.org/docs/full.html not used by webthing
 
-    def __init__(self, name: str, port_expander_name: str, address: int, num_lines: int, num_chars_per_line: int, description: str):
+    def __init__(self, name: str, description: str, lcd: Lcd):
         Thing.__init__(
             self,
             'urn:dev:ops:display-1',
@@ -18,7 +18,7 @@ class DisplayWebThing(Thing):
             description
         )
 
-        self.display = Display(Lcd(port_expander_name, address, num_lines, num_chars_per_line), self.__update_text)
+        self.display = Display(lcd, self.__update_text)
 
         self.text = Value("")
         self.add_property(
@@ -120,9 +120,10 @@ class DisplayWebThing(Thing):
         self.lower_layer_text_ttl.notify_of_external_update(self.display.panel(Display.LAYER_LOWER).ttl)
 
 
-def run_server(hostname: str, port: int, name:str, port_expander_name: str, address: int, num_lines: int, num_chars_per_line: int, description: str):
+def run_server(hostname: str, port: int, name:str, i2c_expander: str, i2c_address: int, num_lines: int, num_chars_per_line: int, description: str):
     logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
-    display_webthing = DisplayWebThing(name,port_expander_name, address,  num_lines, num_chars_per_line, description)
+    lcd = Lcd.createI2C(i2c_expander, i2c_address)
+    display_webthing = DisplayWebThing(name, description, lcd)
     server = WebThingServer(SingleThing(display_webthing), hostname=hostname, port=port)
     try:
         logging.info('starting the server')
@@ -131,4 +132,3 @@ def run_server(hostname: str, port: int, name:str, port_expander_name: str, addr
         logging.info('stopping the server')
         server.stop()
         logging.info('done')
-

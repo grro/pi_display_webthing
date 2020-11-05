@@ -75,7 +75,7 @@ class Display:
 
     def __update_text(self, text: str):
         self.__text = text
-        self.__lcd.write(text)
+        self.__lcd.write(self.__text)
         self.changed_listener()
 
     def on_panel_updated(self):
