@@ -13,7 +13,7 @@ class DisplayWebThing(Thing):
         Thing.__init__(
             self,
             'urn:dev:ops:lcddisplay-1',
-            (name + ' Display Controller').strip(),
+            'Display ' + name + ' Controller',
             ['Display'],
             description
         )
@@ -38,7 +38,7 @@ class DisplayWebThing(Thing):
                      'upper_layer_text',
                      self.upper_layer_text,
                      metadata={
-                         'title': 'upper layer text',
+                         'title': 'Upper layer text',
                          'type': 'string',
                          'description': 'The text of the upper layer',
                          'readOnly': False,
@@ -50,7 +50,7 @@ class DisplayWebThing(Thing):
                      'upper_layer_text_ttl',
                      self.upper_layer_text_ttl,
                      metadata={
-                         'title': 'upper layer text (time-to-live)',
+                         'title': 'Upper layer text (time-to-live)',
                          'type': 'integer',
                          'description': 'The time-to-live of the upper layer. Value -1 deactivates ttl',
                          'readOnly': False,
@@ -62,7 +62,7 @@ class DisplayWebThing(Thing):
                      'middle_layer_text',
                      self.middle_layer_text,
                      metadata={
-                         'title': 'middle layer text',
+                         'title': 'Middle layer text',
                          'type': 'string',
                          'description': 'The text of the middle layer',
                          'readOnly': False,
@@ -74,7 +74,7 @@ class DisplayWebThing(Thing):
                      'middle_layer_text_ttl',
                      self.middle_layer_text_ttl,
                      metadata={
-                         'title': 'middle layer text (time-to-live)',
+                         'title': 'Middle layer text (time-to-live)',
                          'type': 'integer',
                          'description': 'The time-to-live of the middle layer. Value -1 deactivates ttl',
                          'readOnly': False,
@@ -86,7 +86,7 @@ class DisplayWebThing(Thing):
                      'lower_layer_text',
                      self.lower_layer_text,
                      metadata={
-                         'title': 'lower layer text',
+                         'title': 'Lower layer text',
                          'type': 'string',
                          'description': 'The text of the lower layer',
                          'readOnly': False,
@@ -98,7 +98,7 @@ class DisplayWebThing(Thing):
                      'lower_layer_text_ttl',
                      self.lower_layer_text_ttl,
                      metadata={
-                         'title': 'lower layer text (time-to-live)',
+                         'title': 'Lower layer text (time-to-live)',
                          'type': 'integer',
                          'description': 'The time-to-live of the lower layer. Value -1 deactivates ttl',
                          'readOnly': False,
