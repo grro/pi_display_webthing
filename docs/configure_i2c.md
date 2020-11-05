@@ -6,6 +6,7 @@ sudo raspi-config
 ```
 
 This launches the raspi-config utility. Here you should select *Interfacing Options*
+
 ![Activate I2C](i2c_activate_1.png)
 
 Then highlight the *I2C* option and activate *Select*
@@ -24,3 +25,9 @@ the I2C connected devices such as shown below
 ![Detect I2C LCD](detect.png)
 
 Here, the address of the LCD module is *0x27*
+
+
+To run the pi_display_webthing service you need to provide the name of the I2C port expander.
+This should be printed on the microchip you use as shown below.
+
+![Expander](expander.png)
