@@ -48,7 +48,7 @@ class DhtApp(App):
             print("running " + self.packagename + " on " + hostname + ":" + str(port) + " (LCD " + str(args.num_lines)  + "/" + str(args.num_chars) + ")")
             run_server(hostname, port, args.name, args.expander, self.to_hex(args.address), int(args.num_lines), int(args.num_chars), self.description)
             return True
-        elif args.command == 'register' and (args.i2c_expander is not None) and (args.address is not None):
+        elif args.command == 'register' and (args.i2c_expander is not None) and (args.i2c_address is not None):
             print("register " + self.packagename  + " on " + hostname + ":" + str(port) + " (LCD " + str(args.num_lines)  + "/" + str(args.num_chars) + ") and starting it")
             unit = UNIT_TEMPLATE.substitute(packagename=self.packagename, entrypoint=self.entrypoint, hostname=hostname, port=port, verbose=verbose, name=args.name, i2c_expander=args.i2c_expander, i2c_address=args.i2c_address, num_lines=args.num_lines, num_chars=args.num_chars)
             self.unit.register(hostname, port, unit)
