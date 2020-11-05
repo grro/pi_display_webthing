@@ -44,9 +44,9 @@ class DhtApp(App):
         return "--name NAS --i2c_expander PCF8574 --i2c_address 0x27 --num_lines 2 --num_chars 16"
 
     def do_process_command(self, command:str, hostname: str, port: int, verbose: bool, args) -> bool:
-        if command == 'listen' and (args.expander is not None) and (args.address is not None):
+        if command == 'listen' and (args.i2c_expander is not None) and (args.i2c_address is not None):
             print("running " + self.packagename + " on " + hostname + ":" + str(port) + " (LCD " + str(args.num_lines)  + "/" + str(args.num_chars) + ")")
-            run_server(hostname, port, args.name, args.expander, self.to_hex(args.address), int(args.num_lines), int(args.num_chars), self.description)
+            run_server(hostname, port, args.name, args.i2c_expander, self.to_hex(args.i2c_address), int(args.num_lines), int(args.num_chars), self.description)
             return True
         elif args.command == 'register' and (args.i2c_expander is not None) and (args.i2c_address is not None):
             print("register " + self.packagename  + " on " + hostname + ":" + str(port) + " (LCD " + str(args.num_lines)  + "/" + str(args.num_chars) + ") and starting it")
