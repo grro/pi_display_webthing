@@ -66,7 +66,7 @@ class Display:
         self.changed_listener = changed_listener
         self.panels = [Panel(self, changed_listener), Panel(self, changed_listener), Panel(self, changed_listener)]
 
-    def panel(self, layer: int):
+    def panel(self, layer: int) -> Panel:
         return self.panels[layer]
 
     @property

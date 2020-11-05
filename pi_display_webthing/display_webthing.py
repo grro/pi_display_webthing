@@ -112,11 +112,11 @@ class DisplayWebThing(Thing):
 
     def __update_text_props(self):
         self.display_text.notify_of_external_update(self.display.text)
-        self.upper_layer_text.notify_of_external_update(self.display.panel(Display.LAYER_UPPER).display_text)
+        self.upper_layer_text.notify_of_external_update(self.display.panel(Display.LAYER_UPPER).text)
         self.upper_layer_text_ttl.notify_of_external_update(self.display.panel(Display.LAYER_UPPER).ttl)
-        self.middle_layer_text.notify_of_external_update(self.display.panel(Display.LAYER_MIDDLE).display_text)
+        self.middle_layer_text.notify_of_external_update(self.display.panel(Display.LAYER_MIDDLE).text)
         self.middle_layer_text_ttl.notify_of_external_update(self.display.panel(Display.LAYER_MIDDLE).ttl)
-        self.lower_layer_text.notify_of_external_update(self.display.panel(Display.LAYER_LOWER).display_text)
+        self.lower_layer_text.notify_of_external_update(self.display.panel(Display.LAYER_LOWER).text)
         self.lower_layer_text_ttl.notify_of_external_update(self.display.panel(Display.LAYER_LOWER).ttl)
 
 
