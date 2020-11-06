@@ -126,7 +126,6 @@ def createI2C(i2c_expander: str, i2c_address: int) -> BaseCharLCD:
 
 
 def run_server(hostname: str, port: int, name:str, i2c_expander: str, i2c_address: int, description: str):
-    logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
     lcd = createI2C(i2c_expander, i2c_address)
     display_webthing = DisplayWebThing(name, description, lcd)
     server = WebThingServer(SingleThing(display_webthing), hostname=hostname, port=port)
