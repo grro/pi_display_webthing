@@ -1,5 +1,6 @@
 FROM python:3.9.1-alpine
 
+ENV port 8070
 ENV name display
 
 ADD . /tmp/

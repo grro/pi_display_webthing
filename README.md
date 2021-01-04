@@ -28,7 +28,14 @@ A RaspberryPi/LCD hardware setup and wiring may look like [HD44780 1602 LCD modu
 Raspberry Pi OS disables I2C. Please refer [Configure I2C](docs/configure_i2c.md) to activate I2C and to 
 detect the address of the LCD module.
 
-To install pi_display_webthing you may use [PIP](https://realpython.com/what-is-pip/) package manager such as shown below
+To install pi_display_webthing you may use docker or [PIP](https://realpython.com/what-is-pip/) package manager such as shown below
+
+**Docker approach**
+```
+sudo docker run -p 8070:8070 --device /dev/i2c-1:/dev/i2c-1 -e i2c_expander=PCF8574 -e i2c_address=0x27  grro/pi_display_webthing:0.0.24
+```
+
+**PIP approach**
 ```
 sudo pip install pi_display_webthing
 ```
