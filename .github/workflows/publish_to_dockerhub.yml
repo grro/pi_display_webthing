@@ -1,6 +1,9 @@
 name: Docker publish
 
-on: [push]
+on:
+  push:
+    tags:
+      - '*'
 
 jobs:
   build:

@@ -35,7 +35,7 @@ setup(
         'webthings', 'LCD', 'display', 'home automation', 'raspberry', 'pi'
     ],
     install_requires=[
-        'webthing',
+        'webthing==0.15.0',
         'smbus2',
         'RPLCD'
     ],
