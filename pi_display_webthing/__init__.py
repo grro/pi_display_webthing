@@ -16,7 +16,7 @@ After=syslog.target network.target
 
 [Service]
 Type=simple
-ExecStart=$entrypoint --command listen --hostname $hostname --verbose $verbose --port $port --name $name --i2c_address $i2c_address --i2c_expander $i2c_expander
+ExecStart=$entrypoint --command listen --verbose $verbose --port $port --name $name --i2c_address $i2c_address --i2c_expander $i2c_expander
 SyslogIdentifier=$packagename
 StandardOutput=syslog
 StandardError=syslog
@@ -40,15 +40,15 @@ class DhtApp(App):
     def do_additional_listen_example_params(self):
         return "--name nas --i2c_expander PCF8574 --i2c_address 0x27"
 
-    def do_process_command(self, command:str, hostname: str, port: int, verbose: bool, args) -> bool:
+    def do_process_command(self, command:str, port: int, verbose: bool, args) -> bool:
         if command == 'listen' and (args.i2c_expander is not None) and (args.i2c_address is not None):
-            print("running " + self.packagename + " on " + hostname + ":" + str(port))
-            run_server(hostname, port, args.name, args.i2c_expander, self.to_hex(args.i2c_address), self.description)
+            print("running " + self.packagename + " on  " + str(port))
+            run_server(port, args.name, args.i2c_expander, self.to_hex(args.i2c_address), self.description)
             return True
         elif args.command == 'register' and (args.i2c_expander is not None) and (args.i2c_address is not None):
-            print("register " + self.packagename  + " on " + hostname + ":" + str(port) + " and starting it")
-            unit = UNIT_TEMPLATE.substitute(packagename=self.packagename, entrypoint=self.entrypoint, hostname=hostname, port=port, verbose=verbose, name=args.name, i2c_expander=args.i2c_expander, i2c_address=args.i2c_address)
-            self.unit.register(hostname, port, unit)
+            print("register " + self.packagename  + " on " + str(port) + " and starting it")
+            unit = UNIT_TEMPLATE.substitute(packagename=self.packagename, entrypoint=self.entrypoint, port=port, verbose=verbose, name=args.name, i2c_expander=args.i2c_expander, i2c_address=args.i2c_address)
+            self.unit.register(port, unit)
             return True
         else:
             return False

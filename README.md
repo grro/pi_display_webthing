@@ -35,14 +35,14 @@ sudo pip install pi_display_webthing
 
 After this installation you may start the webthing http endpoint inside your python code or via command line using
 ```
-sudo display --command listen --hostname 192.168.0.23 --port 8070 --i2c_expander PCF8574 --i2c_address 0x27 --num_lines 2 --num_chars 16
+sudo display --command listen --port 8070 --i2c_expander PCF8574 --i2c_address 0x27
 ```
-Here, the webthing API will be bind to hostname 192.168.0.23 on the local port 8070 using a 2/16 display layout on address 0x27. 
+Here, the webthing API will be bind on port 8070 using a 2/16 display layout on address 0x27. 
 Further more the port I2C port expander name has to be set. The expander name should be written on the microchip. 
 Supported port expanders are *PCF8574*, *MCP23008* and *MCP23017*
 
 Alternatively to the *listen* command, you can use the *register* command to register and start the webthing service as systemd unit. 
 By doing this the webthing service will be started automatically on boot. Starting the server manually using the *listen* command is no longer necessary. 
 ```
-sudo display --command register --hostname 192.168.0.23 --port 8070 --i2c_expander PCF8574 --i2c_address 0x27 --num_lines 2 --num_chars 16
+sudo display --command register --port 8070 --i2c_expander PCF8574 --i2c_address 0x27
 ```  

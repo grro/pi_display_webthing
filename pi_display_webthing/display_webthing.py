@@ -125,10 +125,10 @@ def createI2C(i2c_expander: str, i2c_address: int) -> BaseCharLCD:
     return CharLCD(i2c_expander, i2c_address)
 
 
-def run_server(hostname: str, port: int, name:str, i2c_expander: str, i2c_address: int, description: str):
+def run_server(port: int, name:str, i2c_expander: str, i2c_address: int, description: str):
     lcd = createI2C(i2c_expander, i2c_address)
     display_webthing = DisplayWebThing(name, description, lcd)
-    server = WebThingServer(SingleThing(display_webthing), hostname=hostname, port=port)
+    server = WebThingServer(SingleThing(display_webthing), port=port, disable_host_validation=True)
     try:
         logging.info('starting the server')
         server.start()
