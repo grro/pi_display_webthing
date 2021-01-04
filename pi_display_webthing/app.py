@@ -61,7 +61,7 @@ class App(ABC):
         logging.basicConfig(format='%(asctime)s %(name)-20s: %(levelname)-8s %(message)s', level=log_level, datefmt='%Y-%m-%d %H:%M:%S')
 
         if args.command is None:
-            self.print_usage_info(args.hostname, str(args.port))
+            self.print_usage_info(str(args.port))
         elif args.command == 'deregister':
             if args.port is None:
                 self.print_usage_info(str(args.port), "--port is mandatory for deregister command")
