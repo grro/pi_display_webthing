@@ -4,7 +4,7 @@ A web connected LCD display module
 This project provides a [webthing API](https://iot.mozilla.org/wot/) to an I2C LCD module such as a [HD44780 1602 LCD Module](https://amzn.to/2TffbbL) on the Raspberry Pi. 
 As a webthing, the LCD can be discovered and controlled by *home automation systems* or custom solutions supporting the webthing API.  
 
-![example display](https://github.com/grro/pi_display_webthing/tree/main/docs/display_small.jpg)
+![example display](docs/display_small.jpg)
 
 The pi_display_webthing exposes an http webthing endpoint which supports controlling the display via http. E.g. 
 ```
@@ -26,8 +26,8 @@ Here, the text *NAS error!* will be displayed. The text of the middle layer *upl
 If the text of the upper layer will be cleaned, the displayed text is *uploaded: 41*. 
 By setting the ttl of the layer, the text of the layer will be disappear after expiration of the ttl. Value -1 means that ttl is deactivated. 
 
-A RaspberryPi/LCD hardware setup and wiring may look like [HD44780 1602 LCD module](https://github.com/grro/pi_display_webthing/tree/main/docs/layout.png). By default, 
-Raspberry Pi OS disables I2C. Please refer [Configure I2C](https://github.com/grro/pi_display_webthing/tree/main/docs/configure_i2c.md) to activate I2C and to 
+A RaspberryPi/LCD hardware setup and wiring may look like [HD44780 1602 LCD module](docs/layout.png). By default, 
+Raspberry Pi OS disables I2C. Please refer [Configure I2C](docs/configure_i2c.md) to activate I2C and to 
 detect the address of the LCD module.
 
 To install pi_display_webthing you may use docker or [PIP](https://realpython.com/what-is-pip/) package manager such as shown below
