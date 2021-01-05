@@ -32,7 +32,7 @@ To install pi_display_webthing you may use docker or [PIP](https://realpython.co
 
 **Docker approach**
 ```
-sudo docker run -p 8070:8070 --device /dev/i2c-1:/dev/i2c-1 -e i2c_expander=PCF8574 -e i2c_address=0x27  grro/pi_display_webthing:0.0.24
+sudo docker run -p 8070:8070 --device /dev/i2c-1:/dev/i2c-1 -e i2c_expander=PCF8574 -e i2c_address=0x27  grro/pi_display_webthing:0.1.0
 ```
 
 **PIP approach**
