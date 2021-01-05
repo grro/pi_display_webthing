@@ -13,8 +13,8 @@ The pi_display_webthing exposes an http webthing endpoint which supports control
 curl http://192.168.0.23:8070/properties 
 
 {
-    "text": "NAS error!",
-    "upper_layer_text": "NAS error!",
+    "text": "Hello\n\rraspi",
+    "upper_layer_text": "Hello\n\rraspi",
     "upper_layer_text_ttl": -1,
     "middle_layer_text": "uploaded: 41",
     "middle_layer_text_ttl": -1,
