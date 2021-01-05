@@ -22,7 +22,7 @@ curl http://192.168.0.23:8070/properties
     "lower_layer_text_ttl": -1
 }
 ```
-Here, the text *NAS error!* will be displayed. The text of the middle layer *uploaded: 41* will be covered by the upper layer. 
+Here, the text *Hello\n\rraspi* will be displayed. The text of the middle layer *uploaded: 41* will be covered by the upper layer. 
 If the text of the upper layer will be cleaned, the displayed text is *uploaded: 41*. 
 By setting the ttl of the layer, the text of the layer will be disappear after expiration of the ttl. Value -1 means that ttl is deactivated. 
 
