@@ -49,7 +49,7 @@ class DhtApp(App):
         if command in {'listen', 'register'} and args.i2c_address is None:
             devices = scan()
             if len(devices) == 0:
-                print("no devices detected. Is I2C activated?")
+                print("no devices detected")
                 return False
             elif len(devices) > 1:
                 print("more than 1 devices found: " + ", ".join(devices) + "\n use --i2c_address parameter to select device")
