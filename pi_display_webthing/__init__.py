@@ -1,7 +1,7 @@
 from string import Template
 from pi_display_webthing.app import App
 from pi_display_webthing.display_webthing import run_server
-
+from pi_display_webthing.detect_devices import scan
 
 
 PACKAGENAME = 'pi_display_webthing'
@@ -38,13 +38,31 @@ class DhtApp(App):
         parser.add_argument('--name', metavar='name', required=False, type=str, default="", help='the name of the display')
 
     def do_additional_listen_example_params(self):
-        return "--name nas --i2c_expander PCF8574 --i2c_address 0x27"
+        devices = scan()
+        if len(devices) > 0:
+            device = devices[0]
+        else:
+            device = " 0x29"
+        return "--name nas --i2c_expander PCF8574 --i2c_address " + device
 
     def do_process_command(self, command:str, port: int, verbose: bool, args) -> bool:
+        if command in {'listen', 'register'} and args.i2c_address is None:
+            devices = scan()
+            if len(devices) == 0:
+                print("no devices detected. Is I2C activated?")
+                return False
+            elif len(devices) > 1:
+                print("more than 1 devices found: " + ", ".join(devices) + "\n use --i2c_address parameter to select device")
+                return False
+            else:
+                args.i2c_address = devices[0]
+                print("device " + args.i2c_address + " detected. Using it")
+
         if command == 'listen' and (args.i2c_expander is not None) and (args.i2c_address is not None):
             print("running " + self.packagename + " on  " + str(port))
             run_server(port, args.name, args.i2c_expander, self.to_hex(args.i2c_address), self.description)
             return True
+
         elif args.command == 'register' and (args.i2c_expander is not None) and (args.i2c_address is not None):
             print("register " + self.packagename  + " on " + str(port) + " and starting it")
             unit = UNIT_TEMPLATE.substitute(packagename=self.packagename, entrypoint=self.entrypoint, port=port, verbose=verbose, name=args.name, i2c_expander=args.i2c_expander, i2c_address=args.i2c_address)
