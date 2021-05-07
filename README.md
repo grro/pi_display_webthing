@@ -26,7 +26,12 @@ Here, the text *Hello\n\rraspi* will be displayed. The text of the middle layer 
 If the text of the upper layer will be cleaned, the displayed text is *uploaded: 41*. 
 By setting the ttl of the layer, the text of the layer will be disappear after expiration of the ttl. Value -1 means that ttl is deactivated. 
 
-A RaspberryPi/LCD hardware setup and wiring may look like [HD44780 1602 LCD module](docs/layout.png). By default, 
+The text of a dedicated layer can be updated as shown below 
+```
+curl -v -X PUT  -d "{\"upper_layer_text\": \"Hello world\"}" http://192.168.1.101:8088/properties/upper_layer_text
+```
+
+The RaspberryPi/LCD hardware setup and wiring may look like [HD44780 1602 LCD module](docs/layout.png). By default, 
 Raspberry Pi OS disables I2C. Please refer [Configure I2C](docs/configure_i2c.md) to activate I2C and to 
 detect the address of the LCD module.
 

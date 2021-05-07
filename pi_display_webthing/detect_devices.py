@@ -13,5 +13,5 @@ def scan() -> List[str]:
             except:
                 pass
     except FileNotFoundError as e:
-        print("I2C seems not to be activated")
+        print("WARNING: I2C seems not to be activated")
     return devices
