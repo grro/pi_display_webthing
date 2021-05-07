@@ -59,7 +59,7 @@ class App(ABC):
         else:
             log_level=logging.INFO
         logging.basicConfig(format='%(asctime)s %(name)-20s: %(levelname)-8s %(message)s', level=log_level, datefmt='%Y-%m-%d %H:%M:%S')
-        print("using log level " + log_level)
+        print("using log level " + str(log_level))
 
         if args.command is None:
             self.print_usage_info(str(args.port))
