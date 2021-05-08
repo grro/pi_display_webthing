@@ -32,7 +32,7 @@ setup(
         ]
     },
     keywords=[
-        'webthings', 'LCD', 'display', 'home automation', 'raspberry', 'pi'
+        'webthing', 'LCD', 'display', 'home automation', 'raspberry', 'pi'
     ],
     install_requires=[
         'webthing==0.15.0',
