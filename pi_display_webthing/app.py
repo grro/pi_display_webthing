@@ -86,6 +86,17 @@ class Unit:
     def __init__(self, packagename: str):
         self.packagename = packagename
 
+    def __print_status(self, service: str):
+        try:
+            status = subprocess.check_output("sudo systemctl is-active " + service, shell=True, stderr=subprocess.STDOUT)
+            if status.decode('ascii').strip() == 'active':
+                print(service + " is active")
+                return
+        except subprocess.CalledProcessError as e:
+            pass
+        print(service + " is inactive")
+        system("sudo journalctl -n 20 -u " + service)
+
     def register(self, port: int, unit: str):
         service = self.servicename(port)
         unit_file_fullname = str(pathlib.Path("/", "etc", "systemd", "system", service))
@@ -94,7 +105,7 @@ class Unit:
         system("sudo systemctl daemon-reload")
         system("sudo systemctl enable " + service)
         system("sudo systemctl restart " + service)
-        system("sudo systemctl status " + service)
+        self.__print_status(service)
 
     def deregister(self, port: int):
         service = self.servicename(port)
