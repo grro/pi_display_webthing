@@ -90,11 +90,11 @@ class Unit:
         try:
             status = subprocess.check_output("sudo systemctl is-active " + service, shell=True, stderr=subprocess.STDOUT)
             if status.decode('ascii').strip() == 'active':
-                print(service + " is active")
+                print(service + " is running")
                 return
         except subprocess.CalledProcessError as e:
             pass
-        print(service + " is inactive")
+        print("Warning: " + service + " is not running")
         system("sudo journalctl -n 20 -u " + service)
 
     def register(self, port: int, unit: str):
