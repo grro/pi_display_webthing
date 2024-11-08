@@ -42,11 +42,6 @@ To install pi_display_webthing you may use [Docker](https://phoenixnap.com/kb/do
 sudo docker run -p 8070:8070 --device /dev/i2c-1:/dev/i2c-1 -e i2c_expander=PCF8574 -e i2c_address=0x27  grro/pi_display_webthing:0.1.0
 ```
 
-**PIP approach**
-```
-sudo pip install pi_display_webthing
-```
-
 After this installation you may start the webthing http endpoint inside your python code or via command line using
 ```
 sudo display --command listen --port 8070 --i2c_expander PCF8574 --i2c_address 0x27

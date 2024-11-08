@@ -1,6 +1,8 @@
+import sys
 from webthing import (SingleThing, Property, Thing, Value, WebThingServer)
 from RPLCD.i2c import CharLCD, BaseCharLCD
-from pi_display_webthing.display import Display
+from display import Display
+from detect_devices import scan
 import tornado.ioloop
 import logging
 
@@ -121,12 +123,17 @@ class DisplayWebThing(Thing):
 
 
 def createI2C(i2c_expander: str, i2c_address: int) -> BaseCharLCD:
-    logging.info("bind driver to address " + hex(i2c_address) + " using port expander " + i2c_expander)
-    return CharLCD(i2c_expander, i2c_address)
+    try:
+        logging.info("bind driver to address " + hex(i2c_address) + " using port expander " + i2c_expander)
+        return CharLCD(i2c_expander, i2c_address)
+    except Exception as e:
+        logging.error(str(e))
+        logging.info("available devices " + ", ".join(scan()))
+        raise e
 
 
-def run_server(port: int, name:str, i2c_expander: str, i2c_address: int, description: str):
-    lcd = createI2C(i2c_expander, i2c_address)
+def run_server(description: str, port: int, name:str, i2c_expander: str, i2c_address_hex: int):
+    lcd = createI2C(i2c_expander, i2c_address_hex)
     display_webthing = DisplayWebThing(name, description, lcd)
     server = WebThingServer(SingleThing(display_webthing), port=port, disable_host_validation=True)
     try:
@@ -136,3 +143,16 @@ def run_server(port: int, name:str, i2c_expander: str, i2c_address: int, descrip
         logging.info('stopping the server')
         server.stop()
         logging.info('done')
+
+def to_hex(hexString: str) -> int:
+    if hexString.startswith("0x"):
+        return int(hexString, 16)
+    else:
+        return int(hexString)
+
+
+if __name__ == '__main__':
+    logging.basicConfig(format='%(asctime)s %(name)-20s: %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
+    logging.getLogger('tornado.access').setLevel(logging.ERROR)
+    logging.getLogger('urllib3.connectionpool').setLevel(logging.WARNING)
+    run_server("description", int(sys.argv[1]), sys.argv[2], sys.argv[3], to_hex(sys.argv[4]))
