@@ -139,18 +139,18 @@ def scan_device_names(bus: int) -> List[str]:
     return devices
 
 
-def create_lcd(i2c_expander: str, i2c_address_hex: int) -> BaseCharLCD:
+def create_lcd(i2c_expander: str, i2c_address: int) -> BaseCharLCD:
     try:
-        logging.info("binding driver to address " + hex(i2c_address_hex) + " using port expander " + i2c_expander)
-        return CharLCD(i2c_expander, i2c_address_hex)
+        logging.info("binding driver to address " + hex(i2c_address) + " using port expander " + i2c_expander)
+        return CharLCD(i2c_expander, i2c_address)
     except Exception as e:
         logging.error("binding driver failed " + str(e))
         logging.info("available devices on /dev/i2c-1", ", ".join(scan_device_names(1)))  # 1 indicates /dev/i2c-1
         raise e
 
 
-def run_server(port: int, name:str, i2c_expander: str, i2c_address_hex: int):
-    display_webthing = DisplayWebThing(name, create_lcd(i2c_expander, i2c_address_hex))
+def run_server(port: int, name:str, i2c_expander: str, i2c_address: int):
+    display_webthing = DisplayWebThing(name, create_lcd(i2c_expander, i2c_address))
     server = WebThingServer(SingleThing(display_webthing), port=port, disable_host_validation=True)
     try:
         logging.info('starting the server')
@@ -170,4 +170,7 @@ if __name__ == '__main__':
     logging.basicConfig(format='%(asctime)s %(name)-20s: %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
     logging.getLogger('tornado.access').setLevel(logging.ERROR)
     logging.getLogger('urllib3.connectionpool').setLevel(logging.WARNING)
-    run_server(port=int(sys.argv[1]), name=sys.argv[2], i2c_expander=sys.argv[3], i2c_address_hex=string_to_hex(sys.argv[4]))
+    run_server(port=int(sys.argv[1]),
+               name=sys.argv[2],
+               i2c_expander=sys.argv[3],
+               i2c_address=string_to_hex(sys.argv[4]))
