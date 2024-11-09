@@ -1,8 +1,9 @@
 import sys
+from typing import List
 from webthing import (SingleThing, Property, Thing, Value, WebThingServer)
 from RPLCD.i2c import CharLCD, BaseCharLCD
+from smbus2 import SMBus
 from display import Display
-from detect_devices import scan
 import tornado.ioloop
 import logging
 
@@ -11,13 +12,13 @@ class DisplayWebThing(Thing):
     # regarding capabilities refer https://iot.mozilla.org/schemas
     # there is also another schema registry http://iotschema.org/docs/full.html not used by webthing
 
-    def __init__(self, name: str, description: str, lcd: BaseCharLCD):
+    def __init__(self, name: str, lcd: BaseCharLCD):
         Thing.__init__(
             self,
             'urn:dev:ops:lcddisplay-1',
-            'Display ' + name + ' Controller',
+            'Display ' + name,
             ['Display'],
-            description
+            'display of' + name
         )
 
         self.display = Display(lcd, self.__update_text)
@@ -122,19 +123,34 @@ class DisplayWebThing(Thing):
         self.lower_layer_text_ttl.notify_of_external_update(self.display.panel(Display.LAYER_LOWER).ttl)
 
 
-def createI2C(i2c_expander: str, i2c_address: int) -> BaseCharLCD:
+
+def scan_device_names(bus: int) -> List[str]:
+    devices = []
     try:
-        logging.info("bind driver to address " + hex(i2c_address) + " using port expander " + i2c_expander)
-        return CharLCD(i2c_expander, i2c_address)
+        bus = SMBus(bus)
+        for device in range(128):
+            try:
+                bus.read_byte(device)
+                devices.append(hex(device))
+            except:
+                pass
+    except FileNotFoundError as e:
+        print("WARNING: I2C seems not to be activated")
+    return devices
+
+
+def create_lcd(i2c_expander: str, i2c_address_hex: int) -> BaseCharLCD:
+    try:
+        logging.info("binding driver to address " + hex(i2c_address_hex) + " using port expander " + i2c_expander)
+        return CharLCD(i2c_expander, i2c_address_hex)
     except Exception as e:
-        logging.error(str(e))
-        logging.info("available devices " + ", ".join(scan()))
+        logging.error("binding driver failed " + str(e))
+        logging.info("available devices on /dev/i2c-1", ", ".join(scan_device_names(1)))  # 1 indicates /dev/i2c-1
         raise e
 
 
-def run_server(description: str, port: int, name:str, i2c_expander: str, i2c_address_hex: int):
-    lcd = createI2C(i2c_expander, i2c_address_hex)
-    display_webthing = DisplayWebThing(name, description, lcd)
+def run_server(port: int, name:str, i2c_expander: str, i2c_address_hex: int):
+    display_webthing = DisplayWebThing(name, create_lcd(i2c_expander, i2c_address_hex))
     server = WebThingServer(SingleThing(display_webthing), port=port, disable_host_validation=True)
     try:
         logging.info('starting the server')
@@ -144,15 +160,14 @@ def run_server(description: str, port: int, name:str, i2c_expander: str, i2c_add
         server.stop()
         logging.info('done')
 
-def to_hex(hexString: str) -> int:
+def string_to_hex(hexString: str) -> int:
     if hexString.startswith("0x"):
         return int(hexString, 16)
     else:
         return int(hexString)
 
-
 if __name__ == '__main__':
     logging.basicConfig(format='%(asctime)s %(name)-20s: %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
     logging.getLogger('tornado.access').setLevel(logging.ERROR)
     logging.getLogger('urllib3.connectionpool').setLevel(logging.WARNING)
-    run_server("description", int(sys.argv[1]), sys.argv[2], sys.argv[3], to_hex(sys.argv[4]))
+    run_server(port=int(sys.argv[1]), name=sys.argv[2], i2c_expander=sys.argv[3], i2c_address_hex=string_to_hex(sys.argv[4]))
