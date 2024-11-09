@@ -1,5 +1,5 @@
 import sys
-from typing import List
+from typing import List, Optional
 from webthing import (SingleThing, Property, Thing, Value, WebThingServer)
 from RPLCD.i2c import CharLCD, BaseCharLCD
 from smbus2 import SMBus
@@ -139,26 +139,30 @@ def scan_device_names(bus: int) -> List[str]:
     return devices
 
 
-def create_lcd(i2c_expander: str, i2c_address: int) -> BaseCharLCD:
+def create_lcd(i2c_expander: str, i2c_address: int) -> Optional[BaseCharLCD]:
     try:
         logging.info("binding driver to address " + hex(i2c_address) + " using port expander " + i2c_expander)
         return CharLCD(i2c_expander, i2c_address)
     except Exception as e:
         logging.error("binding driver failed " + str(e))
         logging.info("available devices on /dev/i2c-1", ", ".join(scan_device_names(1)))  # 1 indicates /dev/i2c-1
-        raise e
+        return None
 
 
 def run_server(port: int, name:str, i2c_expander: str, i2c_address: int):
-    display_webthing = DisplayWebThing(name, create_lcd(i2c_expander, i2c_address))
-    server = WebThingServer(SingleThing(display_webthing), port=port, disable_host_validation=True)
-    try:
-        logging.info('starting the server')
-        server.start()
-    except KeyboardInterrupt:
-        logging.info('stopping the server')
-        server.stop()
-        logging.info('done')
+    lcd = create_lcd(i2c_expander, i2c_address)
+    if lcd is None:
+        logging.info("binding driver to address " + hex(i2c_address) + " using port expander " + i2c_expander +" failed")
+    else:
+        display_webthing = DisplayWebThing(name, lcd)
+        server = WebThingServer(SingleThing(display_webthing), port=port, disable_host_validation=True)
+        try:
+            logging.info('starting the server')
+            server.start()
+        except KeyboardInterrupt:
+            logging.info('stopping the server')
+            server.stop()
+            logging.info('done')
 
 def string_to_hex(hexString: str) -> int:
     if hexString.startswith("0x"):

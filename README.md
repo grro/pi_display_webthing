@@ -36,6 +36,6 @@ Raspberry Pi OS disables I2C. Please refer to [Configure I2C](docs/configure_i2c
 
 **Docker**
 ```
-sudo docker run -p 8070:8070 -e name="WebServer" -e i2c_expander=PCF8574 -e i2c_address=0x27  grro/pi_display_webthing:0.2.5
+sudo docker run -p 8070:8070 --device /dev/i2c-1:/dev/i2c-1 -e name="WebServer" -e i2c_expander=PCF8574 -e i2c_address=0x27  grro/pi_display_webthing:0.2.5
 ```
 
