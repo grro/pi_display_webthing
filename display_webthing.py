@@ -13,6 +13,8 @@ class DisplayWebThing(Thing):
     # there is also another schema registry http://iotschema.org/docs/full.html not used by webthing
 
     def __init__(self, name: str, lcd: BaseCharLCD):
+        self.ioloop = tornado.ioloop.IOLoop.current()
+
         Thing.__init__(
             self,
             'urn:dev:ops:lcddisplay-1',
@@ -47,17 +49,6 @@ class DisplayWebThing(Thing):
                          'readOnly': False,
                      }))
 
-        self.upper_layer_text_ttl = Value(-1, self.display.panel(Display.LAYER_UPPER).update_ttl)
-        self.add_property(
-            Property(self,
-                     'upper_layer_text_ttl',
-                     self.upper_layer_text_ttl,
-                     metadata={
-                         'title': 'Upper layer text (time-to-live)',
-                         'type': 'integer',
-                         'description': 'The time-to-live of the upper layer. Value -1 deactivates ttl',
-                         'readOnly': False,
-                     }))
 
         self.middle_layer_text = Value("", self.display.panel(Display.LAYER_MIDDLE).update_text)
         self.add_property(
@@ -68,18 +59,6 @@ class DisplayWebThing(Thing):
                          'title': 'Middle layer text',
                          'type': 'string',
                          'description': 'The text of the middle layer',
-                         'readOnly': False,
-                     }))
-
-        self.middle_layer_text_ttl = Value(-1, self.display.panel(Display.LAYER_MIDDLE).update_ttl)
-        self.add_property(
-            Property(self,
-                     'middle_layer_text_ttl',
-                     self.middle_layer_text_ttl,
-                     metadata={
-                         'title': 'Middle layer text (time-to-live)',
-                         'type': 'integer',
-                         'description': 'The time-to-live of the middle layer. Value -1 deactivates ttl',
                          'readOnly': False,
                      }))
 
@@ -95,32 +74,14 @@ class DisplayWebThing(Thing):
                          'readOnly': False,
                      }))
 
-        self.lower_layer_text_ttl = Value(-1, self.display.panel(Display.LAYER_LOWER).update_ttl)
-        self.add_property(
-            Property(self,
-                     'lower_layer_text_ttl',
-                     self.lower_layer_text_ttl,
-                     metadata={
-                         'title': 'Lower layer text (time-to-live)',
-                         'type': 'integer',
-                         'description': 'The time-to-live of the lower layer. Value -1 deactivates ttl',
-                         'readOnly': False,
-                     }))
-
-        self.ioloop = tornado.ioloop.IOLoop.current()
-
-
     def __update_text(self):
         self.ioloop.add_callback(self.__update_text_props)
 
     def __update_text_props(self):
         self.display_text.notify_of_external_update(self.display.text)
         self.upper_layer_text.notify_of_external_update(self.display.panel(Display.LAYER_UPPER).text)
-        self.upper_layer_text_ttl.notify_of_external_update(self.display.panel(Display.LAYER_UPPER).ttl)
         self.middle_layer_text.notify_of_external_update(self.display.panel(Display.LAYER_MIDDLE).text)
-        self.middle_layer_text_ttl.notify_of_external_update(self.display.panel(Display.LAYER_MIDDLE).ttl)
         self.lower_layer_text.notify_of_external_update(self.display.panel(Display.LAYER_LOWER).text)
-        self.lower_layer_text_ttl.notify_of_external_update(self.display.panel(Display.LAYER_LOWER).ttl)
 
 
 

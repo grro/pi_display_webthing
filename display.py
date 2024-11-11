@@ -1,5 +1,4 @@
 from RPLCD.i2c import BaseCharLCD
-from datetime import datetime
 
 
 
@@ -46,7 +45,6 @@ class Display:
         self.__text = ""
         self.changed_listener = changed_listener
         self.panels = [Panel(self, changed_listener), Panel(self, changed_listener), Panel(self, changed_listener)]
-        self.panel(Display.LAYER_MIDDLE).update_text(datetime.now().strftime("%d %b, %H:%M") + "\n\rstarted")
 
     def panel(self, layer: int) -> Panel:
         return self.panels[layer]
